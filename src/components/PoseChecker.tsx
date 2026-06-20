@@ -103,7 +103,7 @@ function drawIronManHUD(
     ctx.lineJoin = 'round';
 
     // Draw Grid Lines (Futuristic Grid)
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.04)';
+    ctx.strokeStyle = 'rgba(0, 255, 85, 0.04)';
     ctx.lineWidth = 0.5;
     const gridSize = 40;
     for (let x = 0; x < ctx.canvas.width; x += gridSize) {
@@ -134,7 +134,7 @@ function drawIronManHUD(
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
             ctx.lineWidth = 5;
-            ctx.strokeStyle = statusColor === '#00F0FF' ? 'rgba(0, 240, 255, 0.35)' : statusColor === '#FF9100' ? 'rgba(255, 145, 0, 0.35)' : 'rgba(255, 23, 68, 0.35)';
+            ctx.strokeStyle = statusColor === '#00ff55' ? 'rgba(0, 255, 85, 0.35)' : statusColor === '#FF9100' ? 'rgba(255, 145, 0, 0.35)' : 'rgba(255, 23, 68, 0.35)';
             ctx.shadowBlur = 12;
             ctx.shadowColor = statusColor;
             ctx.stroke();
@@ -283,7 +283,7 @@ function drawIronManHUD(
 
     // Top HUD Pitch/Roll Tape (Hollywood Style)
     const tapeY = 25;
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+    ctx.strokeStyle = 'rgba(0, 255, 85, 0.25)';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(ctx.canvas.width / 2 - 120, tapeY);
@@ -1214,7 +1214,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                     fb.reps = repCountRef.current;
                 }
 
-                const statusColor = fb.score > 80 ? '#00F0FF' : fb.score > 50 ? '#FF9100' : '#FF1744';
+                const statusColor = fb.score > 80 ? '#00ff55' : fb.score > 50 ? '#FF9100' : '#FF1744';
 
                 if (typeof POSE_CONNECTIONS !== 'undefined') {
                     drawIronManHUD(ctx, results.poseLandmarks, POSE_CONNECTIONS, isTrainingModeRef.current ? "Custom AI Trainer" : exerciseName, statusColor);
@@ -1303,7 +1303,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
         };
     }, [onResults]);
 
-    const scoreColor = feedback.score > 80 ? '#00F0FF' : feedback.score > 50 ? '#FF9100' : '#FF1744';
+    const scoreColor = feedback.score > 80 ? '#00ff55' : feedback.score > 50 ? '#FF9100' : '#FF1744';
 
     return (
         <motion.div
@@ -1313,12 +1313,12 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
             transition={{ type: 'spring', damping: 26, stiffness: 280 }}
             className="fixed inset-0 z-[70] bg-[#050505] flex flex-col overflow-hidden font-mono animate-fade-in"
         >
-            <div className="absolute inset-0 bg-transparent pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 60%)' }} />
+            <div className="absolute inset-0 bg-transparent pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 85, 0.03) 0%, transparent 60%)' }} />
 
-            <div className="flex items-center justify-between px-5 pt-6 pb-4 shrink-0 relative z-10 border-b border-[#00F0FF]/20 bg-black/40 backdrop-blur-md">
+            <div className="flex items-center justify-between px-5 pt-6 pb-4 shrink-0 relative z-10 border-b border-[#00ff55]/20 bg-black/40 backdrop-blur-md">
                 <div className="flex items-center gap-4">
                     {/* Spinning Holographic Arc Reactor */}
-                    <svg className="w-9 h-9 animate-spin text-[#00F0FF] drop-shadow-[0_0_8px_#00F0FF]" style={{ animationDuration: '10s' }} viewBox="0 0 100 100">
+                    <svg className="w-9 h-9 animate-spin text-[#00ff55] drop-shadow-[0_0_8px_#00ff55]" style={{ animationDuration: '10s' }} viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 6" />
                         <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="30 10" />
                         <circle cx="50" cy="50" r="24" fill="none" stroke="currentColor" strokeWidth="3" />
@@ -1329,7 +1329,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                         <line x1="95" y1="50" x2="75" y2="50" stroke="currentColor" strokeWidth="2.5" />
                     </svg>
                     <div>
-                        <p className="text-[10px] uppercase tracking-[0.25em] text-[#00F0FF]/60 font-semibold font-mono">T.A.R.G.E.T. Lock // JARVIS_V4</p>
+                        <p className="text-[10px] uppercase tracking-[0.25em] text-[#00ff55]/60 font-semibold font-mono">T.A.R.G.E.T. Lock // JARVIS_V4</p>
                         <h2 className="font-heading text-3xl text-white tracking-wide uppercase">{isTrainingMode ? `AI: ${customActivityName}` : exerciseName}</h2>
                     </div>
                 </div>
@@ -1338,7 +1338,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                         onClick={() => setIsCleanScreen(!isCleanScreen)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 border text-[10px] rounded-xl font-mono transition-all uppercase ${
                             isCleanScreen
-                                ? 'border-[#00F0FF] bg-[#00F0FF]/25 text-[#00F0FF] shadow-[0_0_10px_rgba(0,240,255,0.35)] font-bold'
+                                ? 'border-[#00ff55] bg-[#00ff55]/25 text-[#00ff55] shadow-[0_0_10px_rgba(0,240,255,0.35)] font-bold'
                                 : 'border-white/20 text-white/60 hover:bg-white/5'
                         }`}
                         title={isCleanScreen ? "Show UI Panels" : "Hide UI for Clean Video Feed"}
@@ -1348,7 +1348,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                     </button>
                     <button
                         onClick={onClose}
-                        className="p-3 border border-[#00F0FF]/30 text-[#00F0FF] rounded-xl hover:bg-[#00F0FF]/10 transition-all shadow-[0_0_10px_rgba(0,240,255,0.1)] hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]"
+                        className="p-3 border border-[#00ff55]/30 text-[#00ff55] rounded-xl hover:bg-[#00ff55]/10 transition-all shadow-[0_0_10px_rgba(0,240,255,0.1)] hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]"
                     >
                         <X size={22} strokeWidth={1.5} />
                     </button>
@@ -1360,7 +1360,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                     ? 'border-orange-500/50 shadow-[inset_0_0_40px_rgba(239,68,68,0.15),0_0_30px_rgba(251,146,60,0.15)]'
                     : feedback.score < 60 && feedback.status !== 'idle'
                         ? 'border-red-500/60 shadow-[inset_0_0_50px_rgba(239,68,68,0.3),0_0_40px_rgba(239,68,68,0.2)] animate-pulse'
-                        : 'border-[#00F0FF]/30 shadow-[inset_0_0_40px_rgba(0,240,255,0.05)]'
+                        : 'border-[#00ff55]/30 shadow-[inset_0_0_40px_rgba(0,240,255,0.05)]'
             }`}>
                 <video ref={videoRef} className="hidden" playsInline muted />
                 
@@ -1371,12 +1371,12 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                 <div className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-25 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px]" />
                 
                 {/* Hologram static layer */}
-                <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-repeat bg-center" style={{ backgroundImage: 'radial-gradient(circle, #00F0FF 10%, transparent 11%)', backgroundSize: '12px 12px' }} />
+                <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-repeat bg-center" style={{ backgroundImage: 'radial-gradient(circle, #00ff55 10%, transparent 11%)', backgroundSize: '12px 12px' }} />
 
                 {!cameraReady && !error && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/80 backdrop-blur-sm z-20">
-                        <div className="w-16 h-16 rounded-full border border-[#00F0FF]/40 border-t-[#00F0FF] animate-spin shadow-[0_0_15px_#00F0FF]" />
-                        <p className="text-[#00F0FF] text-sm uppercase tracking-[0.2em] animate-pulse">Initializing Vision Feed...</p>
+                        <div className="w-16 h-16 rounded-full border border-[#00ff55]/40 border-t-[#00ff55] animate-spin shadow-[0_0_15px_#00ff55]" />
+                        <p className="text-[#00ff55] text-sm uppercase tracking-[0.2em] animate-pulse">Initializing Vision Feed...</p>
                     </div>
                 )}
 
@@ -1389,17 +1389,17 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
 
                 {/* Left Telemetry Box (Cycles): Hidden if Clean Screen toggled */}
                 {cameraReady && !isCleanScreen && (
-                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md rounded-lg px-5 py-3 border border-[#00F0FF]/30 flex flex-col items-start gap-0.5 shadow-[0_0_15px_rgba(0,240,255,0.15)] animate-fade-in">
-                        <span className="text-[8px] font-bold uppercase tracking-[0.25em] text-[#00F0FF]/50 font-mono">RECON.CYCLES</span>
-                        <span className="font-heading text-4xl text-[#00F0FF] drop-shadow-[0_0_8px_#00F0FF]">{feedback.reps}</span>
-                        <div className="w-10 h-0.5 bg-[#00F0FF]/40 mt-1"></div>
+                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md rounded-lg px-5 py-3 border border-[#00ff55]/30 flex flex-col items-start gap-0.5 shadow-[0_0_15px_rgba(0,240,255,0.15)] animate-fade-in">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.25em] text-[#00ff55]/50 font-mono">RECON.CYCLES</span>
+                        <span className="font-heading text-4xl text-[#00ff55] drop-shadow-[0_0_8px_#00ff55]">{feedback.reps}</span>
+                        <div className="w-10 h-0.5 bg-[#00ff55]/40 mt-1"></div>
                     </div>
                 )}
 
                 {/* Right Telemetry Box (Integrity): Hidden if Clean Screen toggled */}
                 {cameraReady && !isCleanScreen && (
-                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-lg px-5 py-3 border border-[#00F0FF]/30 shadow-[0_0_15px_rgba(0,240,255,0.15)] min-w-[110px] animate-fade-in">
-                        <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[#00F0FF]/50 font-mono text-right">SYS.INTEGRITY</p>
+                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-lg px-5 py-3 border border-[#00ff55]/30 shadow-[0_0_15px_rgba(0,240,255,0.15)] min-w-[110px] animate-fade-in">
+                        <p className="text-[8px] font-bold uppercase tracking-[0.25em] text-[#00ff55]/50 font-mono text-right">SYS.INTEGRITY</p>
                         <p className="font-heading text-4xl text-right" style={{ color: scoreColor, textShadow: `0 0 8px ${scoreColor}` }}>
                             {feedback.score}%
                         </p>
@@ -1413,10 +1413,10 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
 
                 {/* Floating Holographic Control Panel: Hidden if Clean Screen toggled */}
                 {cameraReady && !isCleanScreen && (
-                    <div className="absolute top-24 right-4 bg-black/70 backdrop-blur-md rounded-xl p-4 w-60 border border-[#00F0FF]/30 shadow-[0_0_20px_rgba(0,240,255,0.15)] flex flex-col gap-3 z-30 text-white animate-fade-in">
-                        <div className="flex items-center justify-between border-b border-[#00F0FF]/20 pb-2">
-                            <span className="text-[10px] font-bold tracking-widest text-[#00F0FF] uppercase flex items-center gap-1.5 font-mono">
-                                <Cpu size={12} className="animate-pulse text-[#00F0FF]" /> COGNITIVE CORE
+                    <div className="absolute top-24 right-4 bg-black/70 backdrop-blur-md rounded-xl p-4 w-60 border border-[#00ff55]/30 shadow-[0_0_20px_rgba(0,240,255,0.15)] flex flex-col gap-3 z-30 text-white animate-fade-in">
+                        <div className="flex items-center justify-between border-b border-[#00ff55]/20 pb-2">
+                            <span className="text-[10px] font-bold tracking-widest text-[#00ff55] uppercase flex items-center gap-1.5 font-mono">
+                                <Cpu size={12} className="animate-pulse text-[#00ff55]" /> COGNITIVE CORE
                             </span>
                             <button
                                 onClick={() => {
@@ -1425,7 +1425,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                                 }}
                                 className={`p-1.5 rounded-lg border transition-all ${
                                     voiceEnabled
-                                        ? 'border-[#00F0FF]/40 bg-[#00F0FF]/10 text-[#00F0FF] shadow-[0_0_8px_rgba(0,240,255,0.2)]'
+                                        ? 'border-[#00ff55]/40 bg-[#00ff55]/10 text-[#00ff55] shadow-[0_0_8px_rgba(0,240,255,0.2)]'
                                         : 'border-white/10 text-white/40 hover:bg-white/5'
                                 }`}
                                 title={voiceEnabled ? "Mute Friday Voice Agent" : "Unmute Friday Voice Agent"}
@@ -1440,7 +1440,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                                 onClick={() => setIsTrainingMode(false)}
                                 className={`flex-1 text-[9px] py-1.5 px-1 rounded-md font-bold uppercase transition-all font-mono ${
                                     !isTrainingMode
-                                        ? 'bg-[#00F0FF]/25 text-[#00F0FF] border border-[#00F0FF]/30'
+                                        ? 'bg-[#00ff55]/25 text-[#00ff55] border border-[#00ff55]/30'
                                         : 'text-white/40 hover:text-white'
                                 }`}
                             >
@@ -1450,7 +1450,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                                 onClick={() => setIsTrainingMode(true)}
                                 className={`flex-1 text-[9px] py-1.5 px-1 rounded-md font-bold uppercase transition-all font-mono ${
                                     isTrainingMode
-                                        ? 'bg-[#00F0FF]/25 text-[#00F0FF] border border-[#00F0FF]/30'
+                                        ? 'bg-[#00ff55]/25 text-[#00ff55] border border-[#00ff55]/30'
                                         : 'text-white/40 hover:text-white'
                                 }`}
                             >
@@ -1461,18 +1461,18 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                         {/* Mode Content */}
                         {!isTrainingMode ? (
                             <div className="text-[10px] text-white/60 space-y-1.5 font-mono">
-                                <p className="text-[8px] uppercase tracking-wider text-[#00F0FF]/60 font-semibold">// CLASSIFIER_ACTIVE</p>
+                                <p className="text-[8px] uppercase tracking-wider text-[#00ff55]/60 font-semibold">// CLASSIFIER_ACTIVE</p>
                                 <p className="leading-tight">Model analyzing posture using hardcoded physical constraints for {exerciseName}.</p>
                             </div>
                         ) : (
                             <div className="flex flex-col gap-2 font-mono">
-                                <p className="text-[8px] uppercase tracking-wider text-[#00F0FF]/60 font-bold">// AI_TRAINING_MODULE</p>
+                                <p className="text-[8px] uppercase tracking-wider text-[#00ff55]/60 font-bold">// AI_TRAINING_MODULE</p>
                                 <input
                                     type="text"
                                     value={customActivityName}
                                     onChange={(e) => setCustomActivityName(e.target.value)}
                                     placeholder="Pose Name..."
-                                    className="bg-black/60 border border-[#00F0FF]/20 rounded-md px-2 py-1 text-[10px] text-white focus:outline-none focus:border-[#00F0FF]/60 w-full"
+                                    className="bg-black/60 border border-[#00ff55]/20 rounded-md px-2 py-1 text-[10px] text-white focus:outline-none focus:border-[#00ff55]/60 w-full"
                                 />
 
                                 <div className="grid grid-cols-2 gap-1.5 mt-1">
@@ -1547,7 +1547,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
 
             {/* Bottom HUD panels (Guidance & Logs): Hidden if Clean Screen toggled */}
             {!isCleanScreen && (
-                <div className="mx-4 mb-4 bg-black/60 backdrop-blur-xl border border-[#00F0FF]/20 rounded-2xl p-5 shrink-0 shadow-[0_4px_30px_rgba(0,0,0,0.5)] animate-fade-in">
+                <div className="mx-4 mb-4 bg-black/60 backdrop-blur-xl border border-[#00ff55]/20 rounded-2xl p-5 shrink-0 shadow-[0_4px_30px_rgba(0,0,0,0.5)] animate-fade-in">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex items-start gap-4 md:col-span-2">
                             {feedback.status === 'good' ? (
@@ -1555,7 +1555,7 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                             ) : feedback.status === 'warn' ? (
                                 <AlertTriangle size={22} className="text-orange-400 shrink-0 mt-0.5 animate-pulse" />
                             ) : (
-                                <Info size={22} className="text-[#00F0FF]/50 shrink-0 mt-0.5" />
+                                <Info size={22} className="text-[#00ff55]/50 shrink-0 mt-0.5" />
                             )}
                             <div className="flex-1">
                                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1.5 flex items-center gap-2" style={{ color: `${scoreColor}80` }}>
@@ -1570,12 +1570,12 @@ const PoseChecker: React.FC<PoseCheckerProps> = ({ exerciseName, onClose }) => {
                             </div>
                         </div>
 
-                        <div className="border-t md:border-t-0 md:border-l border-[#00F0FF]/10 pt-4 md:pt-0 md:pl-6 flex flex-col justify-between">
+                        <div className="border-t md:border-t-0 md:border-l border-[#00ff55]/10 pt-4 md:pt-0 md:pl-6 flex flex-col justify-between">
                             <div>
-                                <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#00F0FF]/40 mb-2 font-mono">
+                                <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#00ff55]/40 mb-2 font-mono">
                                     // JARVIS_DECODING_STREAMS
                                 </p>
-                                <div className="font-mono text-[9px] text-[#00F0FF] space-y-1 opacity-70">
+                                <div className="font-mono text-[9px] text-[#00ff55] space-y-1 opacity-70">
                                     {sysLogs.map((log, i) => (
                                         <div key={i} className="truncate select-none">{log}</div>
                                     ))}
