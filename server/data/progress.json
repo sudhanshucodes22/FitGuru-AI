@@ -1,0 +1,28 @@
+{
+  "alex@fitguru.ai": [
+    {
+      "id": "calories",
+      "label": "Calories",
+      "value": 1450,
+      "max": 2200
+    },
+    {
+      "id": "protein",
+      "label": "Protein",
+      "value": 85,
+      "max": 140
+    },
+    {
+      "id": "water",
+      "label": "Water",
+      "value": 5,
+      "max": 8
+    },
+    {
+      "id": "steps",
+      "label": "Steps",
+      "value": 6200,
+      "max": 10000
+    }
+  ]
+}
