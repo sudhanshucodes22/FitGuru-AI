@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Trophy, Zap, Crown, Shield, 
+  Trophy, Zap, Crown, Shield, 
   Sparkles, Medal, Dumbbell, Calendar, Apple, 
-  Lock, X, Award, Check, Cpu, Compass, Database,
-  Activity, RefreshCw
+  Lock, X, Award, Check, Activity, TrendingUp
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BottomNav from '@/components/BottomNav';
@@ -40,55 +39,48 @@ interface Tier {
   badges: Badge[];
 }
 
-// Custom Premium SVG Badge Renderer (Hollywood Sci-Fi HUD Cockpit style)
-const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: string; unlocked: boolean; isHovered?: boolean }) => {
+// Premium SVG Medal Renderer (Athletic Trophies Style)
+const BadgeVisual = ({ id, tier, unlocked }: { id: string; tier: string; unlocked: boolean }) => {
   const colors = {
     DIAMOND: {
-      primary: '#00FF55',
-      secondary: '#00AA33',
-      glow: 'rgba(0, 255, 85, 0.65)',
-      bg: 'rgba(0, 50, 20, 0.25)',
-      radar: 'rgba(0, 255, 85, 0.15)'
+      primary: '#A855F7',
+      secondary: '#6366F1',
+      glow: 'rgba(168, 85, 247, 0.4)',
+      bg: 'rgba(168, 85, 247, 0.1)'
     },
     PLATINUM: {
-      primary: '#34D399',
-      secondary: '#059669',
-      glow: 'rgba(52, 211, 153, 0.65)',
-      bg: 'rgba(6, 70, 45, 0.25)',
-      radar: 'rgba(52, 211, 153, 0.15)'
+      primary: '#06B6D4',
+      secondary: '#3B82F6',
+      glow: 'rgba(6, 182, 212, 0.4)',
+      bg: 'rgba(6, 182, 212, 0.1)'
     },
     GOLD: {
-      primary: '#A3E635',
-      secondary: '#65A30D',
-      glow: 'rgba(163, 230, 53, 0.65)',
-      bg: 'rgba(30, 60, 10, 0.25)',
-      radar: 'rgba(163, 230, 53, 0.15)'
+      primary: '#FBBF24',
+      secondary: '#EA580C',
+      glow: 'rgba(251, 191, 36, 0.4)',
+      bg: 'rgba(251, 191, 36, 0.1)'
     },
     SILVER: {
-      primary: '#86EFAC',
-      secondary: '#16A34A',
-      glow: 'rgba(134, 239, 172, 0.55)',
-      bg: 'rgba(10, 45, 20, 0.25)',
-      radar: 'rgba(134, 239, 172, 0.1)'
+      primary: '#94A3B8',
+      secondary: '#475569',
+      glow: 'rgba(148, 163, 184, 0.3)',
+      bg: 'rgba(148, 163, 184, 0.08)'
     },
     BRONZE: {
-      primary: '#15803D',
-      secondary: '#166534',
-      glow: 'rgba(21, 128, 61, 0.55)',
-      bg: 'rgba(5, 30, 10, 0.25)',
-      radar: 'rgba(21, 128, 61, 0.1)'
+      primary: '#F97316',
+      secondary: '#7C2D12',
+      glow: 'rgba(249, 115, 22, 0.3)',
+      bg: 'rgba(249, 115, 22, 0.08)'
     }
   }[tier as 'DIAMOND' | 'PLATINUM' | 'GOLD' | 'SILVER' | 'BRONZE'] || {
     primary: '#FFF',
     secondary: '#888',
-    glow: 'rgba(255,255,255,0.2)',
-    bg: 'rgba(0,0,0,0.2)',
-    radar: 'rgba(255,255,255,0.05)'
+    glow: 'rgba(255,255,255,0.1)',
+    bg: 'rgba(255,255,255,0.05)'
   };
 
-  const filterId = `glow-${tier}-${id}`;
   const gradId = `grad-${tier}-${id}`;
-  const innerGradId = `inner-${tier}-${id}`;
+  const filterId = `glow-${tier}-${id}`;
 
   const renderIconContent = () => {
     switch (id) {
@@ -99,7 +91,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
         );
       case 'd2': // Diamond Beast (Zap)
         return (
-          <path d="M54 32 L36 51 H48 L44 66 L62 47 H50 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M54 32 L36 51 H48 L44 66 L62 47 H50 Z" fill="currentColor" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" />
         );
       case 'd3': // Ultimate Athlete (Shield with Wings)
         return (
@@ -134,7 +126,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
         return (
           <path d="M32 45 V55 M38 41 V59 M38 50 H62 M62 41 V59 M68 45 V55" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         );
-      case 'g2': // Endurance Master (Running winged timer)
+      case 'g2': // Endurance Master (Running timer)
         return (
           <g>
             <circle cx="50" cy="48" r="12" fill="none" stroke="currentColor" strokeWidth="2.5" />
@@ -142,7 +134,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             <path d="M30 48 Q33 40 38 40 M70 48 Q67 40 62 40" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </g>
         );
-      case 'g3': // Strength Builder (Barbell / Trending Up)
+      case 'g3': // Strength Builder (Trending Up)
         return (
           <g>
             <path d="M34 58 L46 46 L54 52 L66 38" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -151,7 +143,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
         );
 
       // SILVER
-      case 's1': // Silver Achiever (Concentric Target)
+      case 's1': // Silver Target
         return (
           <g>
             <circle cx="50" cy="50" r="16" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -159,7 +151,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             <circle cx="50" cy="50" r="4" fill="currentColor" />
           </g>
         );
-      case 's2': // Silver Consistent (Calendar)
+      case 's2': // Silver Calendar
         return (
           <g>
             <rect x="35" y="36" width="30" height="28" rx="3" fill="none" stroke="currentColor" strokeWidth="2.5" />
@@ -169,21 +161,21 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             <circle cx="50" cy="56" r="1.5" fill="currentColor" />
           </g>
         );
-      case 's3': // Silver Athlete (Running Sneaker)
+      case 's3': // Silver Sneaker
         return (
           <path d="M33 55 Q40 40 50 40 Q57 40 65 47 V55 Z M44 40 V55 M55 43 V55" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         );
 
       // BRONZE
-      case 'b1': // Bronze Starter (Play)
+      case 'b1': // Bronze Play
         return (
           <path d="M42 36 L62 50 L42 64 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         );
-      case 'b2': // Bronze Performer (Plus)
+      case 'b2': // Bronze Plus
         return (
           <path d="M50 35 V65 M35 50 H65" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
         );
-      case 'b3': // Bronze Challenger (Message)
+      case 'b3': // Bronze Message
         return (
           <path d="M35 38 H65 V56 H45 L35 64 Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         );
@@ -201,7 +193,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             points="50,15 80,32 80,68 50,85 20,68 20,32" 
             fill={colors.bg} 
             stroke={`url(#${gradId})`} 
-            strokeWidth="3" 
+            strokeWidth="3.5" 
             filter={unlocked ? `url(#${filterId})` : undefined} 
             strokeLinejoin="round"
           />
@@ -212,7 +204,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             points="50,15 78,24 85,50 70,80 30,80 15,50 22,24" 
             fill={colors.bg} 
             stroke={`url(#${gradId})`} 
-            strokeWidth="3" 
+            strokeWidth="3.5" 
             filter={unlocked ? `url(#${filterId})` : undefined} 
             strokeLinejoin="round"
           />
@@ -225,7 +217,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             r="35" 
             fill={colors.bg} 
             stroke={`url(#${gradId})`} 
-            strokeWidth="3" 
+            strokeWidth="3.5" 
             filter={unlocked ? `url(#${filterId})` : undefined}
           />
         );
@@ -237,7 +229,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             r="35" 
             fill={colors.bg} 
             stroke={`url(#${gradId})`} 
-            strokeWidth="2.5" 
+            strokeWidth="3" 
             filter={unlocked ? `url(#${filterId})` : undefined}
           />
         );
@@ -247,7 +239,7 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             points="50,15 80,30 80,70 50,85 20,70 20,30" 
             fill={colors.bg} 
             stroke={`url(#${gradId})`} 
-            strokeWidth="2.5" 
+            strokeWidth="3" 
             filter={unlocked ? `url(#${filterId})` : undefined}
             strokeLinejoin="round"
           />
@@ -259,44 +251,17 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      {/* Outer Rotating HUD Rings (JARVIS style) */}
+      {/* Clean soft drop shadow behind unlocked medals */}
       {unlocked && (
-        <>
-          {/* Degree Tick Ring (slow clockwise spin) */}
-          <div 
-            className="absolute inset-0 rounded-full border border-dashed pointer-events-none opacity-40 transition-transform duration-1000"
-            style={{
-              borderColor: colors.primary,
-              animation: isHovered ? 'hud-spin-clockwise 6s linear infinite' : 'hud-spin-clockwise 20s linear infinite',
-              padding: '2px'
-            }}
-          />
-          {/* Inner Segment Ring (slow counter spin) */}
-          <div 
-            className="absolute inset-2 rounded-full border border-double pointer-events-none opacity-20 transition-transform duration-1000"
-            style={{
-              borderColor: colors.secondary,
-              borderWidth: '2px',
-              borderStyle: 'dashed',
-              animation: isHovered ? 'hud-spin-counter 4s linear infinite' : 'hud-spin-counter 15s linear infinite'
-            }}
-          />
-        </>
-      )}
-
-      {/* Target Crosshairs in corners (active HUD details) */}
-      {unlocked && isHovered && (
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2" style={{ borderColor: colors.primary }} />
-          <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2" style={{ borderColor: colors.primary }} />
-          <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2" style={{ borderColor: colors.primary }} />
-          <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2" style={{ borderColor: colors.primary }} />
-        </div>
+        <div 
+          className="absolute w-[70px] h-[70px] rounded-full filter blur-[15px] opacity-35"
+          style={{ backgroundColor: colors.primary }}
+        />
       )}
 
       <svg 
         viewBox="0 0 100 100" 
-        className={`w-4/5 h-4/5 transition-all duration-500 z-10 ${unlocked ? 'text-white' : 'text-white/20'}`}
+        className={`w-[82px] h-[82px] transition-all duration-300 z-10 ${unlocked ? 'text-white' : 'text-white/20'}`}
       >
         <defs>
           <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -305,8 +270,8 @@ const BadgeVisual = ({ id, tier, unlocked, isHovered }: { id: string; tier: stri
             <stop offset="100%" stopColor={unlocked ? colors.secondary : '#1E293B'} />
           </linearGradient>
 
-          <filter id={filterId} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+          <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
             <feOffset dx="0" dy="0" result="offsetblur" />
             <feFlood floodColor={colors.primary} />
             <feComposite in2="offsetblur" operator="in" />
@@ -331,10 +296,10 @@ const INITIAL_TIERS: Tier[] = [
   {
     name: 'DIAMOND',
     desc: 'The ultimate recognition for elite fitness legends.',
-    colorClass: 'bg-indigo-950/10 border-indigo-500/20 text-indigo-400',
-    glowClass: 'shadow-[0_0_25px_rgba(168,85,247,0.2)]',
-    borderClass: 'border-indigo-500/30',
-    textClass: 'text-indigo-400',
+    colorClass: 'bg-purple-950/10 border-purple-500/20 text-purple-400',
+    glowClass: 'shadow-[0_4px_20px_rgba(168,85,247,0.15)]',
+    borderClass: 'border-purple-500/20',
+    textClass: 'text-purple-400',
     accentColor: '#A855F7',
     badges: [
       { 
@@ -384,10 +349,10 @@ const INITIAL_TIERS: Tier[] = [
     name: 'PLATINUM',
     desc: 'For those who go above and beyond.',
     colorClass: 'bg-cyan-950/10 border-cyan-500/20 text-cyan-400',
-    glowClass: 'shadow-[0_0_25px_rgba(6,182,212,0.2)]',
-    borderClass: 'border-cyan-500/30',
+    glowClass: 'shadow-[0_4px_20px_rgba(6,182,212,0.15)]',
+    borderClass: 'border-cyan-500/20',
     textClass: 'text-cyan-400',
-    accentColor: '#00FF55',
+    accentColor: '#06B6D4',
     badges: [
       { 
         id: 'p1', 
@@ -437,8 +402,8 @@ const INITIAL_TIERS: Tier[] = [
     name: 'GOLD',
     desc: 'Celebrating your dedication and outstanding progress.',
     colorClass: 'bg-yellow-950/10 border-yellow-500/20 text-yellow-400',
-    glowClass: 'shadow-[0_0_25px_rgba(251,191,36,0.2)]',
-    borderClass: 'border-yellow-500/30',
+    glowClass: 'shadow-[0_4px_20px_rgba(251,191,36,0.15)]',
+    borderClass: 'border-yellow-500/20',
     textClass: 'text-yellow-400',
     accentColor: '#FBBF24',
     badges: [
@@ -489,8 +454,8 @@ const INITIAL_TIERS: Tier[] = [
     name: 'SILVER',
     desc: 'Honoring your consistency and hard work.',
     colorClass: 'bg-slate-900/10 border-slate-500/20 text-slate-300',
-    glowClass: 'shadow-[0_0_25px_rgba(148,163,184,0.15)]',
-    borderClass: 'border-slate-500/30',
+    glowClass: 'shadow-[0_4px_20px_rgba(148,163,184,0.1)]',
+    borderClass: 'border-slate-500/20',
     textClass: 'text-slate-300',
     accentColor: '#94A3B8',
     badges: [
@@ -542,8 +507,8 @@ const INITIAL_TIERS: Tier[] = [
     name: 'BRONZE',
     desc: 'Every journey starts here. Take the first step!',
     colorClass: 'bg-orange-950/10 border-orange-500/20 text-orange-400',
-    glowClass: 'shadow-[0_0_25px_rgba(249,115,22,0.15)]',
-    borderClass: 'border-orange-500/30',
+    glowClass: 'shadow-[0_4px_20px_rgba(249,115,22,0.1)]',
+    borderClass: 'border-orange-500/20',
     textClass: 'text-orange-400',
     accentColor: '#F97316',
     badges: [
@@ -594,18 +559,17 @@ const INITIAL_TIERS: Tier[] = [
 ];
 
 const CATEGORY_FILTERS = [
-  { id: 'all', label: 'ALL_MODULES', icon: Award },
-  { id: 'camera', label: 'CAM_DIAGNOSTICS', icon: Shield },
-  { id: 'streak', label: 'DAILY_STREAKS', icon: Trophy },
-  { id: 'habits', label: 'HABIT_CALIBRATOR', icon: Calendar },
-  { id: 'diet', label: 'NUTRITION_DIAGS', icon: Apple }
+  { id: 'all', label: 'All Modules', icon: Award },
+  { id: 'camera', label: 'Camera Checks', icon: Shield },
+  { id: 'streak', label: 'Daily Streaks', icon: Trophy },
+  { id: 'habits', label: 'Habit Tracker', icon: Calendar },
+  { id: 'diet', label: 'Nutrition & Diet', icon: Apple }
 ];
 
 const Badges = () => {
   const navigate = useNavigate();
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [hoveredBadgeId, setHoveredBadgeId] = useState<string | null>(null);
 
   // Compute stats
   const totalBadgesLimit = INITIAL_TIERS.reduce((acc, tier) => acc + tier.badges.length, 0);
@@ -620,167 +584,78 @@ const Badges = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-[#00FF55] pb-28 pt-8 px-5 relative overflow-hidden font-mono selection:bg-[#00FF55]/30 selection:text-white">
-      {/* Cinematic Styles Injection */}
-      <style>{`
-        @keyframes grid-scroll {
-          0% { background-position: 0 0; }
-          100% { background-position: 40px 40px; }
-        }
-        @keyframes laser-sweep {
-          0% { top: -10%; opacity: 0; }
-          5% { opacity: 0.8; }
-          50% { opacity: 0.8; }
-          95% { opacity: 0.8; }
-          100% { top: 110%; opacity: 0; }
-        }
-        @keyframes hud-spin-clockwise {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes hud-spin-counter {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(-360deg); }
-        }
-        @keyframes scanner-pulse {
-          0%, 100% { opacity: 0.15; }
-          50% { opacity: 0.4; }
-        }
-        @keyframes glow-pulse {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.6; }
-        }
-        .hud-grid {
-          background-image: 
-            linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
-          background-size: 40px 40px;
-          animation: grid-scroll 24s linear infinite;
-        }
-        .cyber-clip {
-          clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-        }
-        .cyber-clip-sm {
-          clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-
-      {/* Holographic Radar Backdrop Layer */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Animated Blueprint Grid */}
-        <div className="absolute inset-0 hud-grid opacity-60" />
-        
-        {/* Radial sonar rings */}
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full border border-[#00FF55]/5 pointer-events-none flex items-center justify-center animate-pulse" />
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full border border-[#00FF55]/10 pointer-events-none" />
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-full border border-[#00FF55]/5 pointer-events-none" />
-
-        {/* Ambient Glows */}
-        <div className="absolute top-[-10%] right-[-10%] w-[350px] h-[350px] bg-[#A855F7]/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[10%] left-[-10%] w-[350px] h-[350px] bg-[#00FF55]/10 rounded-full blur-[120px] pointer-events-none" />
-      </div>
-
-      {/* Main Container */}
+    <div className="min-h-screen bg-[#09090b] text-[#00ff55] pb-28 pt-8 px-5 relative overflow-hidden selection:bg-[#00ff55]/30 selection:text-white">
+      
+      {/* Sleek, Athletic Content Layout */}
       <div className="relative z-10 max-w-xl mx-auto space-y-6">
         
-        {/* Cinematic Header Console */}
-        <div className="flex items-center justify-between border-b border-[#00FF55]/20 pb-4">
+        {/* Clean Modern Header */}
+        <div className="flex items-center justify-between border-b border-white/5 pb-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-[#00FF55] animate-ping" />
-              <p className="text-[9px] text-[#00FF55]/60 tracking-[0.2em] uppercase font-bold">SYSTEM // REWARDS_V4.2</p>
-            </div>
-            <h1 className="text-2xl font-black text-white tracking-widest uppercase flex items-center gap-1">
-              ACHIEVEMENTS<span className="text-[#00FF55]">_</span>
+            <h1 className="text-3xl font-black text-white tracking-wide uppercase">
+              PERFORMANCE REWARDS
             </h1>
-          </div>
-          <div className="text-right font-mono text-[9px] text-[#00FF55]/50 leading-relaxed">
-            <p>HOST: ANTIGRAVITY_HUD</p>
-            <p>SECTOR: SEC_STARK_09</p>
+            <p className="text-xs text-white/50 font-medium tracking-tight">Earn XP and unlock badges by staying active</p>
           </div>
         </div>
 
-        {/* Telemetry Stats Dial Dashboard */}
-        <div className="relative border border-[#00FF55]/20 bg-[#00FF55]/5 rounded-3xl p-6 overflow-hidden flex flex-col md:flex-row items-center gap-6">
-          {/* Card Border brackets */}
-          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#00FF55]/40" />
-          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#00FF55]/40" />
-          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#00FF55]/40" />
-          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#00FF55]/40" />
-          
-          {/* Scanning laser sweep back */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00FF55]/5 to-transparent h-1/2 w-full pointer-events-none opacity-40" style={{ animation: 'laser-sweep 6s linear infinite' }} />
-
-          {/* Radial Progress Ring Scanner */}
+        {/* Athletic Progress Hub (Circular Fitness Watch Ring Style) */}
+        <div className="relative bg-white/[0.02] border border-white/5 rounded-3xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-xl">
+          {/* Radial Progress Ring */}
           <div className="relative w-28 h-28 flex items-center justify-center flex-shrink-0">
             <svg className="w-full h-full transform -rotate-90">
-              {/* Back track */}
-              <circle cx="56" cy="56" r="46" stroke="rgba(6, 182, 212, 0.1)" strokeWidth="4" fill="transparent" />
-              {/* Outer ticked telemetry ring */}
-              <circle cx="56" cy="56" r="50" stroke="rgba(6, 182, 212, 0.2)" strokeWidth="1" strokeDasharray="3 4" fill="transparent" />
-              {/* Active track */}
+              <circle cx="56" cy="56" r="46" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="6" fill="transparent" />
               <circle 
                 cx="56" 
                 cy="56" 
                 r="46" 
-                stroke="#00FF55" 
-                strokeWidth="4" 
+                stroke="#00ff55" 
+                strokeWidth="6" 
                 fill="transparent"
                 strokeDasharray={2 * Math.PI * 46}
                 strokeDashoffset={2 * Math.PI * 46 * (1 - progressPercentage / 100)}
                 strokeLinecap="round"
                 className="transition-all duration-1000 ease-out"
-                style={{ filter: 'drop-shadow(0 0 6px #00FF55)' }}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(0, 255, 85, 0.4))' }}
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
               <span className="text-2xl font-black text-white">{progressPercentage}%</span>
-              <span className="text-[7px] text-[#00FF55]/60 tracking-wider">CALIBRATED</span>
+              <span className="text-[8px] text-white/40 font-bold uppercase tracking-wider">Completed</span>
             </div>
           </div>
 
-          {/* Monospace telemetry logs */}
+          {/* Simple Clean Metrics Layout */}
           <div className="flex-1 space-y-4 w-full">
-            <div className="grid grid-cols-2 gap-3 text-[10px]">
-              <div className="space-y-1">
-                <p className="text-[#00FF55]/55 font-semibold">// OVERALL_XP</p>
-                <p className="text-lg font-black text-white flex items-center gap-1.5">
-                  <Activity size={12} className="text-[#00FF55] animate-pulse" />
-                  17,400 <span className="text-[9px] text-[#00FF55]/65">XP</span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1 border-l-2 border-[#00ff55]/30 pl-3">
+                <p className="text-[10px] text-white/40 uppercase font-black tracking-wider">Total XP Score</p>
+                <p className="text-xl font-black text-white flex items-center gap-1">
+                  17,400 <span className="text-[10px] text-[#00ff55] font-bold">XP</span>
                 </p>
               </div>
-              <div className="space-y-1">
-                <p className="text-[#00FF55]/55 font-semibold">// NODE_DEVICES</p>
-                <p className="text-lg font-black text-white flex items-center gap-1.5">
-                  <Cpu size={12} className="text-[#00FF55]" />
-                  {totalBadgesCount}/{totalBadgesLimit} <span className="text-[9px] text-[#00FF55]/65">SEC</span>
+              <div className="space-y-1 border-l-2 border-[#00ff55]/30 pl-3">
+                <p className="text-[10px] text-white/40 uppercase font-black tracking-wider">Badges Unlocked</p>
+                <p className="text-xl font-black text-white flex items-center gap-1.5">
+                  {totalBadgesCount}/{totalBadgesLimit}
                 </p>
               </div>
             </div>
 
-            {/* Simulated Live Console Log lines */}
-            <div className="bg-[#030712]/80 border border-[#00FF55]/10 rounded-xl p-2.5 font-mono text-[8px] text-[#00FF55]/60 space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1"><Compass size={8} className="animate-spin-slow" /> [LOG_SCAN] ACTIVE_POSE: VERIFIED_LOCK</span>
-                <span className="text-green-500">[OK]</span>
+            {/* Encouraging status panel */}
+            <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-3 flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-[#00ff55]/10 text-[#00ff55]">
+                <TrendingUp size={16} />
               </div>
-              <div className="flex items-center justify-between">
-                <span>[LOG_PORTAL] SYSTEM_CALIBRATION_RATE: 99.84%</span>
-                <span className="text-[#00FF55]">RUN_OK</span>
-              </div>
+              <p className="text-xs text-white/70 leading-snug">
+                You are on track! Complete 3 more camera posture sets to unlock the next level.
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Futuristic Category Filter Chips */}
-        <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 border-b border-[#00FF55]/10">
+        {/* Rounded Pill Category Chips */}
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
           {CATEGORY_FILTERS.map(f => {
             const Icon = f.icon;
             const isActive = activeFilter === f.id;
@@ -788,19 +663,13 @@ const Badges = () => {
               <button
                 key={f.id}
                 onClick={() => setActiveFilter(f.id)}
-                className={`flex items-center gap-2 px-4 py-2 text-[9px] font-bold tracking-widest uppercase transition-all duration-300 border relative ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-300 border ${
                   isActive 
-                    ? 'bg-[#00FF55]/15 border-[#00FF55] text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                    : 'bg-transparent border-transparent text-[#00FF55]/60 hover:text-white hover:border-[#00FF55]/20'
+                    ? 'bg-[#00ff55] border-[#00ff55] text-black shadow-[0_4px_12px_rgba(0,255,85,0.25)]'
+                    : 'bg-white/[0.02] border-white/5 text-white/60 hover:text-white hover:bg-white/[0.05]'
                 }`}
-                style={{
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))'
-                }}
               >
-                {isActive && (
-                  <span className="absolute top-0.5 left-1/2 -translate-x-1/2 w-1.5 h-0.5 bg-[#00FF55]" />
-                )}
-                <Icon size={10} className={isActive ? 'text-[#00FF55] animate-pulse' : ''} />
+                <Icon size={13} />
                 <span>{f.label}</span>
               </button>
             );
@@ -815,94 +684,61 @@ const Badges = () => {
 
             return (
               <div key={tier.name} className="space-y-4">
-                {/* Tier Subheader with Futuristic Brackets */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="h-4 w-1" style={{ backgroundColor: tier.accentColor }} />
-                    <h2 className="text-[11px] font-black tracking-[0.25em] uppercase flex items-center gap-1.5" style={{ color: tier.accentColor }}>
-                      {tier.name}_TIER_DIV_0{INITIAL_TIERS.indexOf(tier) + 1}
-                    </h2>
-                  </div>
-                  <span className="text-[8px] text-[#00FF55]/30">MEM_LOCK // ENCRYPT_S_0{INITIAL_TIERS.indexOf(tier) + 1}</span>
+                {/* Clean Section Title */}
+                <div className="flex items-center gap-3 pb-1 border-b border-white/5">
+                  <h2 className="text-sm font-black tracking-widest uppercase" style={{ color: tier.accentColor }}>
+                    {tier.name} REWARDS
+                  </h2>
+                  <p className="text-[10px] text-white/30 lowercase font-medium italic">{tier.desc}</p>
                 </div>
 
-                {/* Cybernetic Badges Grid */}
-                <div className="grid grid-cols-3 gap-4">
+                {/* Clean Rounded Badges Grid */}
+                <div className="grid grid-cols-3 gap-3">
                   {filteredBadges.map((badge) => {
                     const completedCount = badge.criteria.filter(c => c.completed).length;
                     const totalCount = badge.criteria.length;
                     const progressPct = Math.round((completedCount / totalCount) * 100);
-                    const isHovered = hoveredBadgeId === badge.id;
 
                     return (
                       <motion.button
                         key={badge.id}
-                        whileHover={{ y: -3 }}
+                        whileHover={badge.unlocked ? { scale: 1.03 } : {}}
                         whileTap={{ scale: 0.97 }}
-                        onHoverStart={() => setHoveredBadgeId(badge.id)}
-                        onHoverEnd={() => setHoveredBadgeId(null)}
                         onClick={() => setSelectedBadge(badge)}
-                        className={`cyber-clip border p-3.5 flex flex-col items-center justify-between text-center aspect-square relative overflow-hidden transition-all duration-500 ${
+                        className={`rounded-2xl border p-4 flex flex-col items-center justify-between text-center aspect-square relative transition-all duration-300 ${
                           badge.unlocked 
-                            ? `bg-[#030712]/80 ${tier.borderClass} ${tier.glowClass}`
-                            : 'bg-[#030712]/30 border-white/5 text-white/10'
+                            ? `bg-white/[0.01] ${tier.borderClass} ${tier.glowClass}`
+                            : 'bg-white/[0.01] border-white/5 text-white/10'
                         }`}
-                        style={{
-                          borderColor: isHovered ? tier.accentColor : undefined,
-                          boxShadow: isHovered ? `0 0 20px ${tier.accentColor}25` : undefined
-                        }}
                       >
-                        {/* Hover sweeping laser effect line */}
-                        {isHovered && badge.unlocked && (
-                          <div 
-                            className="absolute left-0 right-0 h-0.5 pointer-events-none opacity-80"
-                            style={{ 
-                              background: `linear-gradient(90deg, transparent, ${tier.accentColor}, transparent)`, 
-                              animation: 'laser-sweep 1.8s linear infinite',
-                              boxShadow: `0 0 8px ${tier.accentColor}`
-                            }}
-                          />
-                        )}
-
-                        {/* Top corner brackets detail */}
-                        <div className="absolute top-1.5 left-1.5 text-[6px] tracking-tighter opacity-30 select-none">
-                          {badge.unlocked ? `[SYS_OK]` : `[SYS_LCK]`}
-                        </div>
-
                         {!badge.unlocked && (
-                          <div className="absolute top-1.5 right-1.5 text-white/20">
-                            <Lock size={9} />
+                          <div className="absolute top-2 right-2 text-white/20">
+                            <Lock size={11} />
                           </div>
                         )}
                         
-                        {/* Rotating Badge Core */}
-                        <div className="w-16 h-16 flex items-center justify-center mt-1">
-                          <BadgeVisual id={badge.id} tier={tier.name} unlocked={badge.unlocked} isHovered={isHovered} />
+                        {/* Beautiful Medal Visual Core */}
+                        <div className="w-16 h-16 flex items-center justify-center">
+                          <BadgeVisual id={badge.id} tier={tier.name} unlocked={badge.unlocked} />
                         </div>
 
-                        {/* Telemetry Labels */}
-                        <div className="w-full mt-2.5 space-y-1.5">
-                          <span className={`text-[8px] font-black uppercase tracking-wider block truncate px-0.5 ${
-                            badge.unlocked ? 'text-white' : 'text-[#00FF55]/25'
+                        {/* Title & Progress Bar */}
+                        <div className="w-full mt-3 space-y-2">
+                          <span className={`text-[10px] font-black uppercase tracking-wide block truncate ${
+                            badge.unlocked ? 'text-white' : 'text-white/20'
                           }`}>
                             {badge.name}
                           </span>
 
-                          {/* Futuristic Grid Progress tracker */}
-                          <div className="w-full flex items-center justify-between gap-1">
-                            <div className="flex-1 bg-white/5 h-0.5 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full transition-all duration-700 ease-out" 
-                                style={{ 
-                                  width: `${progressPct}%`,
-                                  backgroundColor: badge.unlocked ? tier.accentColor : 'rgba(255,255,255,0.05)',
-                                  boxShadow: badge.unlocked ? `0 0 6px ${tier.accentColor}` : undefined
-                                }} 
-                              />
-                            </div>
-                            <span className={`text-[6px] font-mono font-bold leading-none ${badge.unlocked ? 'text-white/70' : 'text-white/20'}`}>
-                              {progressPct}%
-                            </span>
+                          <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full transition-all duration-700" 
+                              style={{ 
+                                width: `${progressPct}%`,
+                                backgroundColor: badge.unlocked ? tier.accentColor : 'rgba(255,255,255,0.05)',
+                                boxShadow: badge.unlocked ? `0 0 4px ${tier.accentColor}` : undefined
+                              }} 
+                            />
                           </div>
                         </div>
                       </motion.button>
@@ -915,127 +751,107 @@ const Badges = () => {
         </div>
       </div>
 
-      {/* Holographic Diagnostic Detail Modal Overlay */}
+      {/* Aesthetic Performance Detail Dialog */}
       <AnimatePresence>
         {selectedBadge && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+            className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-md flex items-center justify-center p-6"
             onClick={() => setSelectedBadge(null)}
           >
-            {/* Modal Blueprint sweep */}
-            <div className="absolute inset-0 hud-grid opacity-20 pointer-events-none" />
-
             <motion.div
-              initial={{ scale: 0.9, y: 30 }}
+              initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
-              className="w-full max-w-[370px] cyber-clip bg-[#030712]/95 p-6 border relative overflow-hidden"
+              exit={{ scale: 0.95, y: 20 }}
+              className="w-full max-w-[370px] bg-[#0c0c0e] p-6 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl"
               onClick={e => e.stopPropagation()}
-              style={{
-                borderColor: INITIAL_TIERS.find(t => t.name === selectedBadge.tier)?.accentColor || '#00FF55',
-                boxShadow: `0 0 35px ${(INITIAL_TIERS.find(t => t.name === selectedBadge.tier)?.accentColor || '#00FF55')}25`
-              }}
             >
-              {/* Scanline Sweep animation on modal open */}
-              <div 
-                className="absolute left-0 right-0 h-[3px] pointer-events-none opacity-80"
-                style={{ 
-                  background: `linear-gradient(90deg, transparent, ${INITIAL_TIERS.find(t => t.name === selectedBadge.tier)?.accentColor}, transparent)`, 
-                  animation: 'laser-sweep 3s linear infinite',
-                  boxShadow: `0 0 10px ${INITIAL_TIERS.find(t => t.name === selectedBadge.tier)?.accentColor}`
-                }}
-              />
-
-              {/* Corner tech indicators */}
-              <div className="absolute top-3 left-3 text-[8px] text-[#00FF55]/40 font-mono">DIAGNOSTICS_PORTAL // SYS_VER_1.8</div>
-              <div className="absolute bottom-3 right-3 text-[8px] text-[#00FF55]/40 font-mono">SECTOR_STARK_INDEX</div>
-
+              {/* Close Button */}
               <button
                 onClick={() => setSelectedBadge(null)}
-                className="absolute top-4 right-4 bg-white/5 border border-white/10 p-1.5 rounded-full hover:bg-white/10 text-white/60"
+                className="absolute top-4 right-4 bg-white/5 border border-white/5 p-1.5 rounded-full hover:bg-white/10 text-white/50 transition-colors"
               >
                 <X size={14} />
               </button>
 
-              {/* Interactive Core Hologram Display */}
-              <div className="flex flex-col items-center text-center mt-6">
+              {/* Medal Display */}
+              <div className="flex flex-col items-center text-center mt-4">
                 <div className="h-28 w-28 relative flex items-center justify-center">
-                  <BadgeVisual id={selectedBadge.id} tier={selectedBadge.tier} unlocked={selectedBadge.unlocked} isHovered={true} />
+                  <BadgeVisual id={selectedBadge.id} tier={selectedBadge.tier} unlocked={selectedBadge.unlocked} />
                 </div>
 
-                <h3 className="text-lg font-black tracking-widest text-white mt-4 uppercase">
+                <h3 className="text-xl font-black text-white mt-4 uppercase tracking-wide">
                   {selectedBadge.name}
                 </h3>
                 
-                <span className={`text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest mt-2.5 border ${
+                <span className={`text-[9px] font-black px-3.5 py-1 rounded-full uppercase tracking-wider mt-2 border ${
                   selectedBadge.unlocked 
-                    ? 'bg-[#00FF55]/10 text-[#00FF55] border-[#00FF55]/30 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
+                    ? 'bg-[#00ff55]/10 text-[#00ff55] border-[#00ff55]/20'
                     : 'bg-white/5 text-white/30 border-white/10'
                 }`}>
-                  {selectedBadge.unlocked ? '// UNLOCKED_ACCESS' : '// ENCRYPT_LOCKED'}
+                  {selectedBadge.unlocked ? 'Unlocked Achievement' : 'Goal Locked'}
                 </span>
               </div>
 
-              {/* Unlock Requirement Statement */}
-              <p className="text-center text-[10px] text-white/60 mt-4 leading-relaxed px-1 border-t border-b border-[#00FF55]/10 py-3 font-mono">
-                DESCR: &quot;{selectedBadge.desc}&quot;
+              {/* Requirement Description */}
+              <p className="text-center text-xs text-white/60 mt-4 leading-relaxed px-2 py-3 border-t border-b border-white/5">
+                {selectedBadge.desc}
               </p>
 
-              {/* Checklist Criteria Details */}
+              {/* Clean Checklist Criteria */}
               <div className="mt-5 space-y-2">
-                <p className="font-bold text-[#00FF55]/40 text-[8px] uppercase tracking-[0.2em] pl-1">
-                  CRITERIA_CHECKLIST_VERIFICATION
+                <p className="font-black text-white/40 text-[9px] uppercase tracking-wider pl-1">
+                  Required Milestones
                 </p>
                 
                 {selectedBadge.criteria.map((c, i) => (
                   <div 
                     key={i} 
-                    className={`flex items-center justify-between p-3 cyber-clip-sm border font-mono ${
+                    className={`flex items-center justify-between p-3 rounded-2xl border transition-all ${
                       c.completed 
-                        ? 'bg-[#00FF55]/5 border-[#00FF55]/25 text-white' 
-                        : 'bg-white/2 border-white/5 text-white/30'
+                        ? 'bg-white/[0.01] border-white/10 text-white' 
+                        : 'bg-transparent border-white/5 text-white/30'
                     }`}
                   >
                     <div className="flex items-start gap-2.5 max-w-[70%]">
-                      <div className={`p-0.5 rounded-sm mt-0.5 border text-black flex items-center justify-center ${
+                      <div className={`p-0.5 rounded-md mt-0.5 border text-black flex items-center justify-center ${
                         c.completed 
-                          ? 'bg-[#00FF55] border-[#00FF55]' 
+                          ? 'bg-[#00ff55] border-[#00ff55]' 
                           : 'bg-transparent border-white/15 text-white/20'
                       }`}>
-                        {c.completed ? <Check size={8} strokeWidth={4} /> : <Lock size={8} />}
+                        {c.completed ? <Check size={10} strokeWidth={4} /> : <Lock size={10} />}
                       </div>
                       <div className="text-left leading-tight">
-                        <p className="text-[10px] font-bold tracking-tight">{c.name}</p>
-                        <p className={`text-[8px] mt-0.5 ${c.completed ? 'text-[#00FF55]/70' : 'text-white/20'}`}>
-                          TARGET: {c.target}
+                        <p className="text-[11px] font-bold">{c.name}</p>
+                        <p className={`text-[9px] mt-0.5 ${c.completed ? 'text-[#00ff55]/70' : 'text-white/30'}`}>
+                          Goal: {c.target}
                         </p>
                       </div>
                     </div>
                     
                     <div className="text-right">
-                      <span className={`text-[9px] font-bold ${
-                        c.completed ? 'text-[#00FF55] font-black' : 'text-white/30'
+                      <span className={`text-[10px] font-bold ${
+                        c.completed ? 'text-[#00ff55]' : 'text-white/30'
                       }`}>
-                        {c.completed ? '[OK]' : '[PENDING]'} ({c.current})
+                        {c.current}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Rewards Stats Footer */}
-              <div className="grid grid-cols-2 gap-2 mt-5 pt-1">
-                <div className="bg-white/2 p-2.5 cyber-clip-sm border border-white/5 text-center">
-                  <p className="text-[8px] text-white/30 uppercase font-bold">REWARD_CREDIT</p>
-                  <p className="text-xs font-black text-[#00FF55]">+{selectedBadge.xp} XP</p>
+              {/* Reward and Date Stamp Info */}
+              <div className="grid grid-cols-2 gap-2 mt-5">
+                <div className="bg-white/[0.01] p-3 rounded-2xl border border-white/5 text-center">
+                  <p className="text-[8px] text-white/30 uppercase font-black tracking-wider">Reward</p>
+                  <p className="text-xs font-black text-[#00ff55]">+{selectedBadge.xp} XP</p>
                 </div>
-                <div className="bg-white/2 p-2.5 cyber-clip-sm border border-white/5 text-center">
-                  <p className="text-[8px] text-white/30 uppercase font-bold">STAMP_DATE</p>
+                <div className="bg-white/[0.01] p-3 rounded-2xl border border-white/5 text-center">
+                  <p className="text-[8px] text-white/30 uppercase font-black tracking-wider">Unlocked On</p>
                   <p className="text-[10px] font-bold text-white/70 pt-0.5 truncate">
-                    {selectedBadge.unlockedAt ? selectedBadge.unlockedAt : 'UNRESOLVED'}
+                    {selectedBadge.unlockedAt ? selectedBadge.unlockedAt : 'Locked'}
                   </p>
                 </div>
               </div>
