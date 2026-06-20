@@ -23,10 +23,10 @@ interface MealResult {
 }
 
 const GOAL_META: Record<Goal, { label: string; color: string; bg: string; emoji: string }> = {
-  bulking: { label: 'Bulking', color: '#FF9100', bg: 'rgba(255,145,0,0.1)', emoji: '🔴' },
-  cutting: { label: 'Cutting', color: '#00E5FF', bg: 'rgba(0,229,255,0.1)', emoji: '🔵' },
-  recomp: { label: 'Recomp', color: '#C6FF00', bg: 'rgba(198,255,0,0.1)', emoji: '🟢' },
-  maintenance: { label: 'Maintenance', color: '#D400FF', bg: 'rgba(212,0,255,0.1)', emoji: '🟣' },
+  bulking: { label: 'Bulking', color: 'hsl(var(--primary))', bg: 'rgba(0, 255, 85, 0.1)', emoji: '🔥' },
+  cutting: { label: 'Cutting', color: 'hsl(var(--primary))', bg: 'rgba(0, 255, 85, 0.1)', emoji: '⚡' },
+  recomp: { label: 'Recomp', color: 'hsl(var(--primary))', bg: 'rgba(0, 255, 85, 0.1)', emoji: '💪' },
+  maintenance: { label: 'Maintenance', color: 'hsl(var(--primary))', bg: 'rgba(0, 255, 85, 0.1)', emoji: '🎯' },
 };
 
 const MOCK_MEALS: MealResult[] = [
@@ -104,13 +104,13 @@ const MealScanner = () => {
   };
 
   return (
-    <div className="pb-20 min-h-screen bg-[#0D0D0D]">
+    <div className="pb-20 min-h-screen bg-[#09090b]">
       <div className="p-5 pt-10">
         <h1 className="font-heading text-4xl text-white tracking-wide">MEAL SCANNER</h1>
         <p className="text-sm text-white/40 mt-1">Snap a photo to get goal-based nutrition analysis</p>
 
         {/* Goal Selector */}
-        <div className="mt-5 glass rounded-3xl p-4">
+        <div className="mt-5 glass rounded-3xl p-4 border border-white/5">
           <p className="text-[10px] uppercase font-bold text-white/30 mb-3 tracking-widest">Your Current Goal</p>
           <div className="grid grid-cols-2 gap-2">
             {(Object.keys(GOAL_META) as Goal[]).map((g) => {
@@ -123,12 +123,12 @@ const MealScanner = () => {
                   className="flex items-center gap-2 py-2.5 px-3 rounded-2xl transition-all text-left border"
                   style={{
                     backgroundColor: isActive ? meta.bg : 'transparent',
-                    borderColor: isActive ? meta.color : 'rgba(255,255,255,0.05)',
+                    borderColor: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.05)',
                   }}
                 >
                   <span className="text-lg">{meta.emoji}</span>
                   <div>
-                    <p className="text-xs font-bold" style={{ color: isActive ? meta.color : 'rgba(255,255,255,0.5)' }}>
+                    <p className="text-xs font-bold" style={{ color: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.5)' }}>
                       {meta.label}
                     </p>
                   </div>
@@ -158,13 +158,19 @@ const MealScanner = () => {
             <motion.div key="scan" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5">
               <div
                 onClick={handleScan}
-                className="glass rounded-3xl h-64 flex flex-col items-center justify-center cursor-pointer border border-dashed border-white/10 hover:border-primary/50 transition-all"
+                className="glass rounded-3xl h-64 flex flex-col items-center justify-center cursor-pointer border border-white/5 hover:border-primary/30 relative overflow-hidden group transition-all duration-300"
               >
-                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
+                {/* Athletic scanner target corners */}
+                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-primary" />
+                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-primary" />
+                <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-primary" />
+                <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-primary" />
+
+                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
                   <Camera size={36} className="text-primary" />
                 </div>
-                <p className="text-white font-heading text-xl">Take a photo of your meal</p>
-                <p className="text-xs text-white/30 mt-1">Tap to simulate scan</p>
+                <p className="text-white font-heading text-xl uppercase tracking-wider">Take a photo of your meal</p>
+                <p className="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">Tap to simulate scan</p>
               </div>
             </motion.div>
           ) : (
@@ -173,7 +179,7 @@ const MealScanner = () => {
               {/* Meal Image */}
               <div className="relative rounded-3xl overflow-hidden h-52">
                 <img src={meal.imageUrl} alt={meal.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="flex gap-2 mb-2">
                     <span className="text-[10px] bg-primary/20 text-primary rounded-full px-2 py-0.5 font-bold uppercase tracking-wide">
@@ -245,7 +251,7 @@ const MealScanner = () => {
               </div>
 
               {/* Nutrition Breakdown */}
-              <div className="glass rounded-3xl p-5 space-y-3">
+              <div className="glass rounded-3xl p-5 space-y-3 border border-white/5">
                 <p className="text-xs text-white/40 uppercase tracking-widest mb-2">Nutrition Breakdown</p>
                 {meal.nutrition.map((n) => (
                   <div key={n.label}>
@@ -255,7 +261,10 @@ const MealScanner = () => {
                     </div>
                     <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                       <motion.div
-                        className={`h-full rounded-full ${n.color}`}
+                        className="h-full rounded-full bg-primary"
+                        style={{
+                          opacity: n.label === 'Protein' || n.label === 'Calories' ? 1 : 0.5
+                        }}
                         initial={{ width: 0 }}
                         animate={{ width: `${(n.value / n.max) * 100}%` }}
                         transition={{ duration: 0.8, ease: 'easeOut' }}

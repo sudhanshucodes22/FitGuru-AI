@@ -144,7 +144,7 @@ const Workouts = () => {
   };
 
   return (
-    <div className="pb-20 min-h-screen bg-[#0D0D0D]">
+    <div className="pb-20 min-h-screen bg-[#09090b]">
       {/* Header Image */}
       <div className="relative h-52">
         <img
@@ -152,7 +152,7 @@ const Workouts = () => {
           alt="Gym"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/60 to-transparent" />
         <div className="absolute bottom-4 left-5">
           <p className="text-xs text-primary font-medium uppercase tracking-widest">Day 4 · Upper Body</p>
           <h1 className="font-heading text-4xl text-white">CHEST & ARMS</h1>
@@ -165,15 +165,15 @@ const Workouts = () => {
       </div>
 
       {/* Summary Bar */}
-      <div className="flex justify-around mx-5 my-4 glass rounded-2xl p-4">
+      <div className="flex justify-around mx-5 my-4 glass rounded-2xl p-4 border border-white/5">
         {[
           { label: 'Sets', value: exercises.reduce((s, e) => s + e.sets, 0) },
           { label: 'Est. Time', value: '65 min' },
           { label: 'Calories', value: '~550' },
         ].map(({ label, value }) => (
           <div key={label} className="text-center">
-            <p className="font-heading text-2xl text-white">{value}</p>
-            <p className="text-[10px] uppercase text-white/40">{label}</p>
+            <p className="font-heading text-2xl text-primary">{value}</p>
+            <p className="text-[9px] uppercase tracking-wider text-muted-foreground">{label}</p>
           </div>
         ))}
       </div>
@@ -289,19 +289,26 @@ const Workouts = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.85 }}
               onClick={(e) => e.stopPropagation()}
-              className="glass rounded-[40px] p-10 text-center w-72 border border-white/10"
+              className="glass rounded-[40px] p-10 text-center w-72 border border-white/10 relative overflow-hidden"
             >
-              <p className="font-heading text-xl text-white/50 mb-2 uppercase tracking-widest">Rest Timer</p>
-              <p className="font-heading text-8xl text-primary">{seconds}s</p>
-              <p className="text-xs text-white/30 mt-2 uppercase tracking-widest">
-                {running ? 'Rest up...' : '💪 Done! Back to it!'}
+              <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full -z-10" />
+              <p className="font-heading text-xl text-foreground mb-4 uppercase tracking-widest">Rest Phase</p>
+              <div className="relative w-32 h-32 mx-auto flex items-center justify-center mb-4">
+                <svg className="absolute w-full h-full -rotate-90">
+                  <circle cx="64" cy="64" r="58" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+                  <circle cx="64" cy="64" r="58" fill="none" stroke="#00ff55" strokeWidth="6"
+                    strokeDasharray={364} strokeDashoffset={364 * (1 - seconds / 60)} strokeLinecap="round" className="transition-all duration-1000" />
+                </svg>
+                <p className="font-heading text-5xl text-primary">{seconds}s</p>
+              </div>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                {running ? 'Recovering...' : 'Ready to work!'}
               </p>
               <Button
                 onClick={() => setTimerOpen(false)}
-                variant="outline"
-                className="mt-6 rounded-2xl w-full border-white/10 text-white hover:bg-white/5"
+                className="mt-6 rounded-2xl w-full bg-primary text-black font-heading tracking-widest hover:bg-primary/95 text-md h-12"
               >
-                Dismiss
+                SKIP REST
               </Button>
             </motion.div>
           </motion.div>

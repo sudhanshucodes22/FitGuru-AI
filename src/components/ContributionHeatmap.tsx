@@ -29,10 +29,10 @@ const ContributionHeatmap: React.FC<HeatmapProps> = ({ year, completedDates, hab
 
     const getColor = (count: number) => {
         if (count === 0) return '#1E1E1E';
-        if (count <= 2) return '#C6FF0033';
-        if (count <= 4) return '#C6FF0066';
-        if (count <= 6) return '#C6FF00AA';
-        return '#C6FF00';
+        if (count <= 2) return 'rgba(0, 255, 85, 0.2)';
+        if (count <= 4) return 'rgba(0, 255, 85, 0.5)';
+        if (count <= 6) return 'rgba(0, 255, 85, 0.8)';
+        return 'rgba(0, 255, 85, 1)';
     };
 
     const today = new Date();

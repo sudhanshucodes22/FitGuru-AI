@@ -173,7 +173,7 @@ const Tracker: React.FC = () => {
     const totalCompletions = allCompletedDates.length;
 
     return (
-        <div className="min-h-screen bg-[#0D0D0D] text-white pb-24 px-5 pt-8 overflow-x-hidden">
+        <div className="min-h-screen bg-[#09090b] text-white pb-24 px-5 pt-8 overflow-x-hidden">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <h1 className="font-heading text-4xl tracking-wider">TRACKER</h1>
@@ -199,18 +199,19 @@ const Tracker: React.FC = () => {
                             key={habit.id}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="glass rounded-2xl p-4 flex items-center gap-4 relative overflow-hidden"
+                            className="glass rounded-2xl p-4 flex items-center gap-4 relative overflow-hidden cursor-pointer hover:border-primary/20 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200"
                             onClick={() => toggleHabit(habit.id)}
                         >
                             <div
                                 className="absolute left-0 top-0 bottom-0 w-1"
                                 style={{ backgroundColor: habit.color }}
                             />
-                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center transition-all ${habit.completedDates.includes(format(new Date(), 'yyyy-MM-dd'))
-                                ? 'bg-primary text-black scale-110'
-                                : 'bg-white/5 text-white/40'
+                            <div className={`h-9 w-9 rounded-xl flex items-center justify-center border transition-all duration-300 ${
+                                habit.completedDates.includes(format(new Date(), 'yyyy-MM-dd'))
+                                  ? 'bg-primary border-primary text-black scale-105 shadow-[0_0_15px_rgba(0,255,85,0.3)]'
+                                  : 'bg-white/5 border-white/5 text-white/20'
                                 }`}>
-                                <Check size={24} strokeWidth={3} />
+                                <Check size={18} strokeWidth={3.5} />
                             </div>
                             <div className="flex-1">
                                 <h3 className="font-heading text-lg leading-none mb-1">{habit.name}</h3>
@@ -419,7 +420,7 @@ const Tracker: React.FC = () => {
                         initial={{ y: "100%" }}
                         animate={{ y: 0 }}
                         exit={{ y: "100%" }}
-                        className="fixed inset-0 z-[60] bg-[#0D0D0D] flex flex-col p-8 overflow-y-auto"
+                        className="fixed inset-0 z-[60] bg-[#09090b] flex flex-col p-8 overflow-y-auto"
                     >
                         <div className="flex justify-between items-center mb-10">
                             <div className="flex items-center gap-4">

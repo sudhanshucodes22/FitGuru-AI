@@ -80,13 +80,13 @@ const Chat = () => {
       console.error(error);
       setMessages((prev) => [
         ...prev,
-        { role: 'ai', content: "Sorry, I am having trouble connecting to my cognitive cores right now. Please try again later! ⚡" }
+        { role: 'ai', content: "Sorry, I'm having trouble syncing with the coaching database right now. Let's try again in a bit! ⚡" }
       ]);
     }
   };
 
   return (
-    <div className="flex flex-col h-screen pb-16">
+    <div className="flex flex-col h-screen pb-16 bg-[#09090b]">
       {/* Header */}
       <div className="p-4 pt-8 glass border-b border-border">
         <div className="flex items-center gap-3">
@@ -114,9 +114,9 @@ const Chat = () => {
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${msg.role === 'user'
-                ? 'bg-primary text-primary-foreground rounded-br-md'
-                : 'glass rounded-bl-md'
+              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed border border-white/0 ${msg.role === 'user'
+                ? 'bg-primary text-primary-foreground font-semibold rounded-br-md shadow-[0_0_15px_rgba(0,255,85,0.15)]'
+                : 'glass rounded-bl-md border-white/5'
                 }`}
             >
               <p>{msg.content}</p>
@@ -150,12 +150,12 @@ const Chat = () => {
       </div>
 
       {/* Quick Chips */}
-      <div className="px-4 pb-2 flex gap-2 overflow-x-auto hide-scrollbar">
+      <div className="px-4 pb-3 flex gap-2 overflow-x-auto hide-scrollbar">
         {quickChips.map((c) => (
           <button
             key={c}
             onClick={() => { setInput(c); }}
-            className="whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+            className="whitespace-nowrap text-xs font-semibold px-4 py-2 rounded-full border border-white/5 glass text-white/65 hover:border-primary/30 hover:text-primary hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
           >
             {c}
           </button>
@@ -163,19 +163,19 @@ const Chat = () => {
       </div>
 
       {/* Input */}
-      <div className="p-3 glass border-t border-border flex gap-2">
-        <Button variant="ghost" size="icon" className="shrink-0 text-muted-foreground">
-          <Mic size={20} />
+      <div className="p-4 glass border-t border-white/5 flex gap-2 items-center bg-[#09090b]/80 backdrop-blur-lg">
+        <Button variant="ghost" size="icon" className="shrink-0 text-muted-foreground hover:text-primary hover:bg-white/5 rounded-full h-10 w-10 transition-colors">
+          <Mic size={18} />
         </Button>
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           placeholder="Ask your AI coach..."
-          className="flex-1 h-10 rounded-full bg-secondary border-0"
+          className="flex-1 h-11 rounded-full bg-white/5 border border-white/5 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary text-sm px-4 placeholder:text-muted-foreground"
         />
-        <Button onClick={sendMessage} size="icon" className="shrink-0 rounded-full">
-          <Send size={18} />
+        <Button onClick={sendMessage} size="icon" className="shrink-0 h-11 w-11 rounded-full bg-primary text-black hover:bg-primary/95 transition-all active:scale-95 shadow-[0_0_15px_rgba(0,255,85,0.2)]">
+          <Send size={16} />
         </Button>
       </div>
 

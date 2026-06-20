@@ -21,7 +21,7 @@ const Yoga = () => {
   const [selectedPose, setSelectedPose] = useState('Warrior I');
 
   return (
-    <div className="pb-20 min-h-screen">
+    <div className="pb-20 min-h-screen bg-[#09090b]">
       <div className="p-5 pt-8">
         <h1 className="font-heading text-3xl text-foreground">Yoga Posture Check</h1>
         <p className="text-sm text-muted-foreground">AI-powered pose correction</p>

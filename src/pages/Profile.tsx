@@ -10,11 +10,11 @@ import BottomNav from '@/components/BottomNav';
 import { toast } from 'sonner';
 
 const settings = [
-  { icon: Bell, label: 'Notifications', color: 'text-orange-400' },
-  { icon: Leaf, label: 'Diet Preferences', color: 'text-emerald-400' },
-  { icon: Globe, label: 'Language', color: 'text-cyan-400' },
-  { icon: Watch, label: 'Connect Wearable', color: 'text-indigo-400' },
-  { icon: Shield, label: 'Privacy & Data', color: 'text-pink-400' },
+  { icon: Bell, label: 'Notifications', color: 'text-primary' },
+  { icon: Leaf, label: 'Diet Preferences', color: 'text-primary' },
+  { icon: Globe, label: 'Language', color: 'text-primary' },
+  { icon: Watch, label: 'Connect Wearable', color: 'text-primary' },
+  { icon: Shield, label: 'Privacy & Data', color: 'text-primary' },
 ];
 
 const LANGUAGES = [
@@ -165,7 +165,7 @@ const Profile = () => {
   );
 
   return (
-    <div className="pb-20 min-h-screen bg-[#0D0D0D] text-white">
+    <div className="pb-20 min-h-screen bg-[#09090b] text-white">
       <div className="p-5 pt-8">
         {/* Avatar & Name */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
@@ -179,16 +179,17 @@ const Profile = () => {
         </motion.div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-4 gap-2 mt-6">
+        <div className="grid grid-cols-4 gap-2.5 mt-6">
           {[
-            { label: 'Weight', value: `${user.weight}kg` },
-            { label: 'Height', value: `${user.height}cm` },
-            { label: 'BMI', value: bmi },
-            { label: 'Age', value: `${user.age}` },
+            { label: 'Weight', value: `${user.weight} kg` },
+            { label: 'Height', value: `${user.height} cm` },
+            { label: 'BMI Score', value: bmi },
+            { label: 'Age', value: `${user.age} yrs` },
           ].map((s) => (
-            <div key={s.label} className="glass rounded-xl p-3 text-center border border-white/5">
-              <p className="font-heading text-lg text-primary">{s.value}</p>
-              <p className="text-[10px] text-white/40 uppercase tracking-tighter">{s.label}</p>
+            <div key={s.label} className="glass rounded-2xl p-3 text-center border border-white/5 relative overflow-hidden group hover:border-primary/20 transition-all duration-300">
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-primary/20 group-hover:bg-primary transition-all duration-300" />
+              <p className="font-heading text-xl text-primary leading-tight mt-1">{s.value}</p>
+              <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>

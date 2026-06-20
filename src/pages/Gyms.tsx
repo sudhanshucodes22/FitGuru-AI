@@ -18,7 +18,7 @@ const Gyms = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   return (
-    <div className="pb-20 min-h-screen">
+    <div className="pb-20 min-h-screen bg-[#09090b]">
       <div className="p-5 pt-8">
         <div className="flex justify-between items-center">
           <h1 className="font-heading text-3xl text-foreground">Nearby Gyms</h1>
