@@ -165,21 +165,37 @@ const Profile = () => {
   );
 
   return (
-    <div className="pb-20 min-h-screen bg-[#09090b] text-white">
-      <div className="p-5 pt-8">
+    <div className="pb-20 min-h-screen bg-[#09090b] text-white relative overflow-hidden">
+      {/* Background spotlights */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] h-[300px] bg-[radial-gradient(circle_at_top,rgba(0,255,85,0.06),transparent_65%)] pointer-events-none z-0" />
+      <div className="absolute bottom-[20%] right-0 w-80 h-80 bg-[radial-gradient(circle,rgba(0,255,85,0.03),transparent_70%)] pointer-events-none z-0" />
+
+      {/* Backlit Profile Header Card */}
+      <div className="relative overflow-hidden p-6 border-b border-white/5 bg-[#121218]/25 z-10">
+        {/* Gym training backdrop */}
+        <img 
+          src="https://images.unsplash.com/photo-1541534741688-6078c64b52d3?w=800&q=80" 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/40 to-transparent" />
+        
         {/* Avatar & Name */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-            <User size={28} className="text-primary" />
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-5 relative z-10 pt-4">
+          <div className="h-20 w-20 rounded-full bg-[#09090b]/80 flex items-center justify-center border-2 border-primary/40 shadow-[0_0_20px_rgba(0,255,85,0.2)]">
+            <User size={32} className="text-primary" />
           </div>
           <div>
-            <h1 className="font-heading text-2xl text-foreground">{user.name}</h1>
-            <span className="text-[10px] bg-primary/20 text-primary px-2.5 py-0.5 rounded-full font-medium tracking-wide uppercase">🎯 {user.goal}</span>
+            <p className="text-[9px] text-primary font-bold uppercase tracking-[0.2em] mb-1">ATHLETE ACCOUNT</p>
+            <h1 className="font-heading text-3xl text-foreground uppercase tracking-wide">{user.name}</h1>
+            <span className="inline-block mt-1 text-[9px] bg-primary/10 border border-primary/20 text-primary px-2.5 py-0.5 rounded-full font-bold tracking-wider uppercase">🎯 {user.goal}</span>
           </div>
         </motion.div>
+      </div>
 
+      <div className="p-5 pt-4 relative z-10">
         {/* Stats Row */}
-        <div className="grid grid-cols-4 gap-2.5 mt-6">
+        <div className="grid grid-cols-4 gap-2.5 mt-2">
           {[
             { label: 'Weight', value: `${user.weight} kg` },
             { label: 'Height', value: `${user.height} cm` },
@@ -196,7 +212,7 @@ const Profile = () => {
 
         {/* Progress Photos */}
         <div className="mt-6">
-          <h2 className="font-heading text-lg text-foreground mb-3 uppercase tracking-wide text-white/80">Progress Photos</h2>
+          <h2 className="font-heading text-lg text-foreground mb-3 uppercase tracking-wide text-white/80">Progress Snapshots</h2>
           <div className="grid grid-cols-2 gap-3">
             {['Before', 'After'].map((l) => (
               <div key={l} className="glass rounded-2xl h-40 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group">
@@ -209,7 +225,7 @@ const Profile = () => {
         </div>
 
         {/* Settings */}
-        <div className="mt-6 space-y-2">
+        <div className="mt-6 space-y-2.5">
           {settings.map((s, i) => (
             <motion.button
               key={s.label}
@@ -217,13 +233,18 @@ const Profile = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }}
               onClick={() => setActiveSetting(s.label)}
-              className="w-full glass rounded-xl px-4 py-4 flex items-center justify-between border border-white/5 hover:border-primary/20 transition-all hover:scale-[1.01] active:scale-95 duration-200"
+              className="w-full glass rounded-2xl px-5 py-4 flex items-center justify-between border border-white/5 hover:border-primary/20 transition-all hover:scale-[1.01] active:scale-95 duration-200"
             >
-              <div className="flex items-center gap-3">
-                <s.icon size={18} className={s.color} />
-                <span className="text-sm font-medium text-white/80">{s.label}</span>
+              <div className="flex items-center gap-4">
+                <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/10">
+                  <s.icon size={16} className={s.color} />
+                </div>
+                <span className="text-sm font-semibold tracking-wide text-white/80">{s.label}</span>
               </div>
-              <ChevronRight size={16} className="text-white/30" />
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary/45 animate-pulse" />
+                <ChevronRight size={16} className="text-white/30" />
+              </div>
             </motion.button>
           ))}
 
@@ -233,10 +254,10 @@ const Profile = () => {
               setIsOnboarded(false); 
               navigate('/'); 
             }}
-            className="w-full glass rounded-xl px-4 py-4 flex items-center gap-3 mt-4 border border-red-500/10 hover:border-red-500/30 transition-all hover:scale-[1.01] active:scale-95 duration-200"
+            className="w-full glass rounded-2xl px-5 py-4 flex items-center gap-3 mt-4 border border-red-500/10 hover:border-red-500/30 transition-all hover:scale-[1.01] active:scale-95 duration-200"
           >
             <LogOut size={18} className="text-red-500" />
-            <span className="text-sm font-semibold text-red-500">Log Out</span>
+            <span className="text-sm font-semibold text-red-500">Log Out Profile</span>
           </button>
         </div>
       </div>

@@ -144,23 +144,28 @@ const Workouts = () => {
   };
 
   return (
-    <div className="pb-20 min-h-screen bg-[#09090b]">
+    <div className="pb-20 min-h-screen bg-[#09090b] relative overflow-hidden">
+      {/* Ambient background spotlights */}
+      <div className="absolute top-[20%] left-0 w-72 h-72 bg-[radial-gradient(circle,rgba(0,255,85,0.03),transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute top-[60%] right-0 w-72 h-72 bg-[radial-gradient(circle,rgba(0,255,85,0.03),transparent_70%)] pointer-events-none z-0" />
+
       {/* Header Image */}
-      <div className="relative h-52">
+      <div className="relative h-60 z-10 border-b border-white/5">
         <img
           src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80"
           alt="Gym"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/60 to-transparent" />
-        <div className="absolute bottom-4 left-5">
-          <p className="text-xs text-primary font-medium uppercase tracking-widest">Day 4 · Upper Body</p>
-          <h1 className="font-heading text-4xl text-white">CHEST & ARMS</h1>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/40 to-transparent" />
+        <div className="absolute bottom-6 left-5">
+          <p className="text-[10px] text-primary font-bold uppercase tracking-[0.2em] mb-1.5">ELITE COACHING CORE</p>
+          <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Day 4 · Upper Body</p>
+          <h1 className="font-heading text-5xl text-white mt-1 tracking-wide">CHEST & ARMS</h1>
         </div>
         {/* Workout stats */}
-        <div className="absolute top-4 right-4 glass rounded-2xl px-4 py-2 text-center">
-          <p className="text-[10px] uppercase text-white/40">Today</p>
-          <p className="font-heading text-xl text-primary">{exercises.length} Exercises</p>
+        <div className="absolute top-6 right-4 glass rounded-2xl px-4 py-2.5 text-center border border-white/15 shadow-xl">
+          <p className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Today</p>
+          <p className="font-heading text-2xl text-primary mt-0.5">{exercises.length} Exercises</p>
         </div>
       </div>
 
@@ -185,7 +190,7 @@ const Workouts = () => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08 }}
-            className="glass rounded-3xl overflow-hidden border border-white/5"
+            className="glass rounded-3xl overflow-hidden border border-white/5 hover:border-primary/25 hover:shadow-[0_0_20px_rgba(0,255,85,0.03)] transition-all duration-300 relative z-10"
           >
             <button
               onClick={() => setExpanded(expanded === i ? null : i)}
@@ -219,11 +224,11 @@ const Workouts = () => {
                 >
                   <div className="px-5 pb-5 space-y-3">
                     {/* Demo image */}
-                    <div className="relative h-40 rounded-2xl overflow-hidden">
-                      <img src={ex.demoUrl} alt={ex.name} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
-                        <div className="bg-black/50 rounded-full p-3 backdrop-blur-sm">
-                          <Play size={24} className="text-primary" />
+                    <div className="relative h-44 rounded-2xl overflow-hidden group/demo border border-white/5">
+                      <img src={ex.demoUrl} alt={ex.name} className="w-full h-full object-cover group-hover/demo:scale-105 transition-all duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-black/30 to-transparent flex items-center justify-center">
+                        <div className="bg-primary text-black rounded-full p-3.5 shadow-[0_0_20px_rgba(0,255,85,0.4)] hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer">
+                          <Play size={22} fill="currentColor" className="ml-0.5" />
                         </div>
                       </div>
                     </div>

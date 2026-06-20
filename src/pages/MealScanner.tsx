@@ -104,47 +104,60 @@ const MealScanner = () => {
   };
 
   return (
-    <div className="pb-20 min-h-screen bg-[#09090b]">
-      <div className="p-5 pt-10">
+    <div className="pb-20 min-h-screen bg-[#09090b] relative overflow-hidden">
+      {/* Background spotlights */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] h-[300px] bg-[radial-gradient(circle_at_top,rgba(0,255,85,0.06),transparent_65%)] pointer-events-none z-0" />
+
+      <div className="p-5 pt-10 relative z-10">
         <h1 className="font-heading text-4xl text-white tracking-wide">MEAL SCANNER</h1>
         <p className="text-sm text-white/40 mt-1">Snap a photo to get goal-based nutrition analysis</p>
 
-        {/* Goal Selector */}
-        <div className="mt-5 glass rounded-3xl p-4 border border-white/5">
-          <p className="text-[10px] uppercase font-bold text-white/30 mb-3 tracking-widest">Your Current Goal</p>
-          <div className="grid grid-cols-2 gap-2">
-            {(Object.keys(GOAL_META) as Goal[]).map((g) => {
-              const meta = GOAL_META[g];
-              const isActive = selectedGoal === g;
-              return (
-                <button
-                  key={g}
-                  onClick={() => setSelectedGoal(g)}
-                  className="flex items-center gap-2 py-2.5 px-3 rounded-2xl transition-all text-left border"
-                  style={{
-                    backgroundColor: isActive ? meta.bg : 'transparent',
-                    borderColor: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.05)',
-                  }}
-                >
-                  <span className="text-lg">{meta.emoji}</span>
-                  <div>
-                    <p className="text-xs font-bold" style={{ color: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.5)' }}>
-                      {meta.label}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
+        {/* Goal Selector card with meal-prep backdrop */}
+        <div className="mt-5 glass rounded-3xl p-4 border border-white/5 relative overflow-hidden group hover:border-primary/20 transition-all duration-300">
+          <img 
+            src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80" 
+            alt="" 
+            className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-15 transition-opacity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/80 to-transparent" />
+          
+          <div className="relative z-10">
+            <p className="text-[9px] text-primary font-bold uppercase tracking-[0.2em] mb-2">TARGET CALIBRATION</p>
+            <p className="text-[10px] uppercase font-bold text-white/40 mb-3 tracking-widest">Your Goal Profile</p>
+            <div className="grid grid-cols-2 gap-2">
+              {(Object.keys(GOAL_META) as Goal[]).map((g) => {
+                const meta = GOAL_META[g];
+                const isActive = selectedGoal === g;
+                return (
+                  <button
+                    key={g}
+                    onClick={() => setSelectedGoal(g)}
+                    className="flex items-center gap-2 py-2.5 px-3 rounded-2xl transition-all text-left border"
+                    style={{
+                      backgroundColor: isActive ? meta.bg : 'rgba(18, 18, 24, 0.4)',
+                      borderColor: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.05)',
+                    }}
+                  >
+                    <span className="text-lg">{meta.emoji}</span>
+                    <div>
+                      <p className="text-xs font-bold" style={{ color: isActive ? 'hsl(var(--primary))' : 'rgba(255,255,255,0.5)' }}>
+                        {meta.label}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Camera Tabs */}
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2 mt-4 relative z-10">
           {(['camera', 'upload'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold uppercase tracking-wide transition-all ${tab === t ? 'bg-primary text-black' : 'glass text-white/40'
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold uppercase tracking-wide transition-all ${tab === t ? 'bg-primary text-black shadow-[0_0_15px_rgba(0,255,85,0.2)]' : 'glass text-white/40 border border-white/5'
                 }`}
             >
               {t === 'camera' ? <Camera size={16} /> : <Upload size={16} />}
@@ -155,22 +168,37 @@ const MealScanner = () => {
 
         <AnimatePresence mode="wait">
           {!scanned ? (
-            <motion.div key="scan" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5">
+            <motion.div key="scan" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5 relative z-10">
               <div
                 onClick={handleScan}
-                className="glass rounded-3xl h-64 flex flex-col items-center justify-center cursor-pointer border border-white/5 hover:border-primary/30 relative overflow-hidden group transition-all duration-300"
+                className="glass rounded-3xl h-64 flex flex-col items-center justify-center cursor-pointer border border-white/5 hover:border-primary/30 relative overflow-hidden group transition-all duration-300 bg-[#09090b]/40"
               >
+                {/* Gym ingredients backdrop */}
+                <img 
+                  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-15 group-hover:opacity-25 group-hover:scale-105 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                
+                {/* Laser sweep line */}
+                <motion.div 
+                  className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_15px_#00ff55] pointer-events-none"
+                  animate={{ top: ['10%', '90%', '10%'] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+                />
+
                 {/* Athletic scanner target corners */}
                 <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-primary" />
                 <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-primary" />
                 <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-primary" />
                 <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-primary" />
 
-                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                <div className="relative z-10 w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:scale-105 group-hover:border-primary/45 group-hover:bg-primary/20 transition-all duration-300">
                   <Camera size={36} className="text-primary" />
                 </div>
-                <p className="text-white font-heading text-xl uppercase tracking-wider">Take a photo of your meal</p>
-                <p className="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">Tap to simulate scan</p>
+                <p className="relative z-10 text-white font-heading text-2xl uppercase tracking-widest text-center px-4 leading-none">ANALYZE MEAL INTAKE</p>
+                <p className="relative z-10 text-[9px] text-primary font-bold uppercase tracking-[0.2em] mt-2">TAP TO ACTIVATE SCANNER</p>
               </div>
             </motion.div>
           ) : (

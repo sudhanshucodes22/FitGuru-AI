@@ -173,22 +173,38 @@ const Tracker: React.FC = () => {
     const totalCompletions = allCompletedDates.length;
 
     return (
-        <div className="min-h-screen bg-[#09090b] text-white pb-24 px-5 pt-8 overflow-x-hidden">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="font-heading text-4xl tracking-wider">TRACKER</h1>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="glass rounded-full text-primary"
-                    onClick={() => setIsManagerOpen(true)}
-                >
-                    <Settings size={20} />
-                </Button>
+        <div className="min-h-screen bg-[#09090b] text-white pb-24 px-5 pt-6 overflow-x-hidden relative">
+            {/* Background spotlights */}
+            <div className="absolute top-[30%] right-0 w-80 h-80 bg-[radial-gradient(circle,rgba(0,255,85,0.03),transparent_70%)] pointer-events-none z-0" />
+            <div className="absolute bottom-[20%] left-0 w-80 h-80 bg-[radial-gradient(circle,rgba(0,255,85,0.03),transparent_70%)] pointer-events-none z-0" />
+
+            {/* Header section with fitness action overlay */}
+            <div className="relative rounded-3xl overflow-hidden h-40 mb-6 border border-white/5 shadow-2xl z-10">
+                <img 
+                    src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=80" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-35" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/50 to-transparent" />
+                
+                <div className="relative z-10 p-6 h-full flex justify-between items-end">
+                    <div>
+                        <p className="text-[10px] text-primary font-bold uppercase tracking-[0.2em] mb-1">STREAK CORE SYSTEM</p>
+                        <h1 className="font-heading text-4xl tracking-wider text-white">DAILY TRACKER</h1>
+                    </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="glass rounded-full text-primary h-11 w-11 border border-white/10 hover:bg-white/10"
+                        onClick={() => setIsManagerOpen(true)}
+                    >
+                        <Settings size={20} />
+                    </Button>
+                </div>
             </div>
 
             {/* My Habits Section */}
-            <section className="mb-8">
+            <section className="mb-8 relative z-10">
                 <div className="flex justify-between items-end mb-4">
                     <h2 className="font-heading text-xl text-primary/80 tracking-wide uppercase">My Habits</h2>
                 </div>
@@ -234,7 +250,7 @@ const Tracker: React.FC = () => {
             </section>
 
             {/* Global Heatmap Section */}
-            <section className="glass rounded-3xl p-6 mb-8">
+            <section className="glass rounded-3xl p-6 mb-8 relative z-10 border border-white/5 hover:border-primary/20 transition-all duration-300">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="font-heading text-xl">Consistency — {selectedYear}</h2>
                     <div className="flex gap-2">
